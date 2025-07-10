@@ -1,58 +1,63 @@
 import flet as ft
 from services.storage import cargar_registros
 from utils.helpers import formatear_moneda
+from datetime import date
 
 def pantalla_calendario(page: ft.Page):
-    page.title = "Historial por Fecha"
-    page.scroll = ft.ScrollMode.AUTO
-
+    page.title = "Ver registros por fecha"
     registros = cargar_registros()
-    output = ft.Column()
+    resultado = ft.Column(spacing=15)
 
-    def filtrar_por_fecha(e):
-        if not date_picker.value:
+    def buscar_por_fecha(e):
+        fecha_elegida = date_picker.value
+        if not fecha_elegida:
+            resultado.controls = [ft.Text("⚠️ Debes seleccionar una fecha.", color=ft.colors.RED)]
+            page.update()
             return
 
-        fecha = date_picker.value.strftime("%Y-%m-%d")
-        encontrados = [r for r in registros if r["fecha"] == fecha]
+        fecha_formateada = fecha_elegida.strftime("%Y-%m-%d")
+        registros_en_fecha = [r for r in registros if r["fecha"] == fecha_formateada]
 
-        output.controls.clear()
-        if encontrados:
-            for r in encontrados:
+        if not registros_en_fecha:
+            resultado.controls = [ft.Text(f"📅 No hay registros para {fecha_formateada}.")]
+        else:
+            resultado.controls = []
+            for r in registros_en_fecha:
                 dist = r["distribucion"]
                 ahorros = dist["ahorros"]
-                output.controls.append(
+                resultado.controls.append(
                     ft.Card(
-                        ft.Container(
+                        content=ft.Container(
+                            bgcolor=ft.colors.GREY_50,
+                            border_radius=10,
+                            padding=15,
                             content=ft.Column([
-                                ft.Text(f"Fecha: {fecha}", weight="bold"),
-                                ft.Text(f"Ingreso: {formatear_moneda(r['ingreso'])}"),
-                                ft.Text(f"- Necesidades Básicas: {formatear_moneda(dist['necesidades_basicas'])}"),
-                                ft.Text(f"- Gastos Personales: {formatear_moneda(dist['gastos_personales'])}"),
-                                ft.Text(f"- Imprevistos: {formatear_moneda(dist['imprevistos'])}"),
-                                ft.Text("- Ahorros:"),
-                                ft.Text(f"    • Fondo Emergencia: {formatear_moneda(ahorros['fondo_emergencia'])}"),
-                                ft.Text(f"    • Inversiones: {formatear_moneda(ahorros['inversiones'])}"),
-                                ft.Text(f"    • Viajes y Tecnología: {formatear_moneda(ahorros['viajes_tecnologia'])}"),
-                            ]),
-                            padding=15
+                                ft.Text(f"💰 Ingreso: {formatear_moneda(r['ingreso'])}", weight="bold", size=15),
+                                ft.Text(f"🛒 Necesidades Básicas: {formatear_moneda(dist['necesidades_basicas'])}"),
+                                ft.Text(f"👤 Gastos Personales: {formatear_moneda(dist['gastos_personales'])}"),
+                                ft.Text(f"⚠️ Imprevistos: {formatear_moneda(dist['imprevistos'])}"),
+                                ft.Text("📦 Ahorros:", weight="bold", size=14),
+                                ft.Text(f"  🆘 Fondo Emergencia: {formatear_moneda(ahorros['fondo_emergencia'])}"),
+                                ft.Text(f"  📈 Inversiones: {formatear_moneda(ahorros['inversiones'])}"),
+                                ft.Text(f"  ✈️ Viajes y Tecnología: {formatear_moneda(ahorros['viajes_tecnologia'])}"),
+                            ])
                         )
                     )
                 )
-        else:
-            output.controls.append(ft.Text("No se encontraron registros para esa fecha."))
-
         page.update()
 
-    date_picker = ft.DatePicker(on_change=filtrar_por_fecha)
-    page.overlay.append(date_picker)
+    date_picker = ft.DatePicker(
+    on_change=buscar_por_fecha,
+    first_date=date(2023, 1, 1),
+    last_date=date(2030, 12, 31)
+    )
 
-    boton_fecha = ft.ElevatedButton("Seleccionar fecha", on_click=lambda _: date_picker.pick_date())
+    page.overlay.append(date_picker)
 
     page.add(
         ft.Column([
-            ft.Text("Consultar distribución por fecha", size=20, weight="bold"),
-            boton_fecha,
-            output
-        ])
+            ft.Text("📅 Selecciona una fecha para ver registros", size=20, weight="bold"),
+            ft.FilledButton("Elegir fecha", icon=ft.icons.CALENDAR_MONTH, on_click=lambda e: date_picker.pick_date()),
+            resultado
+        ], spacing=20)
     )

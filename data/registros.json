@@ -12,5 +12,19 @@
                 "viajes_tecnologia": 330000
             }
         }
+    },
+    {
+        "fecha": "2025-07-10",
+        "ingreso": 4000000,
+        "distribucion": {
+            "necesidades_basicas": 1200000,
+            "gastos_personales": 800000,
+            "imprevistos": 400000,
+            "ahorros": {
+                "fondo_emergencia": 480000,
+                "inversiones": 720000,
+                "viajes_tecnologia": 400000
+            }
+        }
     }
 ]

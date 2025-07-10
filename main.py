@@ -1,32 +1,39 @@
 import flet as ft
 from ui.home import pantalla_principal
 from ui.calendario import pantalla_calendario
-from utils.helpers import formatear_moneda, obtener_fecha_actual_formateada
+from utils.helpers import formatear_moneda
 
-# Aplicar formatear_moneda en todas las vistas
+# Aplicar formato a nivel de módulos
 import ui.home
 import ui.calendario
-
 ui.home.formatear_moneda = formatear_moneda
 ui.calendario.formatear_moneda = formatear_moneda
 
 def main(page: ft.Page):
-    def ir_a_home(e):
-        page.clean()
-        page.add(botones_navegacion)
-        pantalla_principal(page)
+    page.title = "Distribución de Dinero"
+    page.theme_mode = ft.ThemeMode.LIGHT
+    page.scroll = ft.ScrollMode.AUTO
 
-    def ir_a_calendario(e):
-        page.clean()
-        page.add(botones_navegacion)
-        pantalla_calendario(page)
+    def cambiar_pagina(index):
+        page.controls.clear()
+        page.controls.append(navegacion_inferior)
+        if index == 0:
+            pantalla_principal(page)
+        elif index == 1:
+            pantalla_calendario(page)
+        page.update()
 
-    botones_navegacion = ft.Row([
-        ft.ElevatedButton("🏠 Inicio", on_click=ir_a_home),
-        ft.ElevatedButton("📅 Ver por fecha", on_click=ir_a_calendario),
-    ], alignment=ft.MainAxisAlignment.SPACE_EVENLY)
+    # Barra inferior de navegación
+    navegacion_inferior = ft.NavigationBar(
+        destinations=[
+            ft.NavigationDestination(icon=ft.icons.HOME, label="Inicio"),
+            ft.NavigationDestination(icon=ft.icons.CALENDAR_MONTH, label="Por Fecha"),
+        ],
+        selected_index=0,
+        on_change=lambda e: cambiar_pagina(e.control.selected_index),
+    )
 
-    page.add(botones_navegacion)
+    page.controls.append(navegacion_inferior)
     pantalla_principal(page)
 
 ft.app(target=main, view=ft.WEB_BROWSER)
