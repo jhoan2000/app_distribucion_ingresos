@@ -2,6 +2,7 @@ import flet as ft
 from services.storage import cargar_registros
 from ui.agregar_sueldo import mostrar_modal_ingreso
 from utils.helpers import formatear_moneda
+from ui.graficos import mostrar_graficos
 
 
 def pantalla_principal(page: ft.Page):
@@ -21,6 +22,7 @@ def pantalla_principal(page: ft.Page):
             controles.append(
                 ft.Card(
                     content=ft.Container(
+                        on_click=lambda e, r=registro: mostrar_graficos(page, r),
                         bgcolor=ft.colors.BLUE_GREY_50,
                         border_radius=10,
                         padding=15,
@@ -48,6 +50,7 @@ def pantalla_principal(page: ft.Page):
     def abrir_modal_agregar(e):
         mostrar_modal_ingreso(page, registros, actualizar_lista)
 
+
     # Cabecera con botón de agregar
     page.add(
         ft.Container(
@@ -56,7 +59,7 @@ def pantalla_principal(page: ft.Page):
             border_radius=10,
             content=ft.Row([
                 ft.Text("💸 Distribución de Dinero Mensual", size=22, weight="bold", expand=True),
-                ft.FilledButton("➕ Agregar ingreso", icon=ft.icons.ADD, on_click=abrir_modal_agregar)
+                ft.FilledButton("Agregar ingreso", icon=ft.icons.ADD, on_click=abrir_modal_agregar)
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
         ),
         ft.Divider(),

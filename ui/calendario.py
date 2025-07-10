@@ -2,6 +2,7 @@ import flet as ft
 from services.storage import cargar_registros
 from utils.helpers import formatear_moneda
 from datetime import date
+from ui.graficos import mostrar_graficos
 
 def pantalla_calendario(page: ft.Page):
     page.title = "Ver registros por fecha"
@@ -28,11 +29,12 @@ def pantalla_calendario(page: ft.Page):
                 resultado.controls.append(
                     ft.Card(
                         content=ft.Container(
+                            on_click=lambda e, r=r: mostrar_graficos(page, r),
                             bgcolor=ft.colors.GREY_50,
                             border_radius=10,
                             padding=15,
                             content=ft.Column([
-                                ft.Text(f"💰 Ingreso: {formatear_moneda(r['ingreso'])}", weight="bold", size=15),
+                                ft.Text(f"💰 Ingreso: {formatear_moneda(r['ingreso'])}", weight="bold", size=15,color=ft.colors.INDIGO_ACCENT),
                                 ft.Text(f"🛒 Necesidades Básicas: {formatear_moneda(dist['necesidades_basicas'])}"),
                                 ft.Text(f"👤 Gastos Personales: {formatear_moneda(dist['gastos_personales'])}"),
                                 ft.Text(f"⚠️ Imprevistos: {formatear_moneda(dist['imprevistos'])}"),

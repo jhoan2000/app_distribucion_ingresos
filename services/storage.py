@@ -9,13 +9,12 @@ def guardar_registro(registros):
         json.dump(registros, f, indent=4, ensure_ascii=False)
 
 def cargar_registros():
-    if not os.path.exists(RUTA_ARCHIVO):
+    if not os.path.exists("data/registros.json"):
         return []
-    try:
-        with open(RUTA_ARCHIVO, "r", encoding="utf-8") as f:
-            contenido = f.read().strip()
-            if not contenido:
-                return []
-            return json.loads(contenido)
-    except Exception:
-        return []
+
+    with open("data/registros.json", "r") as f:
+        try:
+            registros = json.load(f)
+            return registros if isinstance(registros, list) else []
+        except json.JSONDecodeError:
+            return []
