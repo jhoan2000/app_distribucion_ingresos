@@ -1,0 +1,16 @@
+[
+    {
+        "fecha": "2025-07-10",
+        "ingreso": 3300000,
+        "distribucion": {
+            "necesidades_basicas": 990000,
+            "gastos_personales": 660000,
+            "imprevistos": 330000,
+            "ahorros": {
+                "fondo_emergencia": 396000,
+                "inversiones": 594000,
+                "viajes_tecnologia": 330000
+            }
+        }
+    }
+]
