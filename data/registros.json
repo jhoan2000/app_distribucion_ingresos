@@ -1,14 +1,30 @@
-[{
-    "fecha": "2025-07-10",
-    "ingreso": 10000000,
-    "distribucion": {
-        "necesidades_basicas": 3000000,
-        "gastos_personales": 2000000,
-        "imprevistos": 1000000,
-        "ahorros": {
-            "fondo_emergencia": 1200000,
-            "inversiones": 1800000,
-            "viajes_tecnologia": 1000000
+[
+    {
+        "fecha": "2025-07-10",
+        "ingreso": 500000,
+        "distribucion": {
+            "necesidades_basicas": 150000,
+            "gastos_personales": 100000,
+            "imprevistos": 50000,
+            "ahorros": {
+                "fondo_emergencia": 60000,
+                "inversiones": 90000,
+                "viajes_tecnologia": 50000
+            }
+        }
+    },
+    {
+        "fecha": "2025-07-10",
+        "ingreso": 500000,
+        "distribucion": {
+            "necesidades_basicas": 150000,
+            "gastos_personales": 100000,
+            "imprevistos": 50000,
+            "ahorros": {
+                "fondo_emergencia": 60000,
+                "inversiones": 90000,
+                "viajes_tecnologia": 50000
+            }
         }
     }
-}]
+]

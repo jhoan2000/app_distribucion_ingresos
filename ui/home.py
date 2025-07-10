@@ -23,7 +23,7 @@ def pantalla_principal(page: ft.Page):
                 ft.Card(
                     content=ft.Container(
                         on_click=lambda e, r=registro: mostrar_graficos(page, r),
-                        bgcolor=ft.colors.BLUE_GREY_50,
+                        bgcolor=ft.Colors.BLUE_GREY_50,
                         border_radius=10,
                         padding=15,
                         content=ft.Column([
@@ -54,12 +54,12 @@ def pantalla_principal(page: ft.Page):
     # Cabecera con botón de agregar
     page.add(
         ft.Container(
-            bgcolor=ft.colors.BLUE_100,
+            bgcolor=ft.Colors.BLUE_100,
             padding=15,
             border_radius=10,
             content=ft.Row([
                 ft.Text("💸 Distribución de Dinero Mensual", size=22, weight="bold", expand=True),
-                ft.FilledButton("Agregar ingreso", icon=ft.icons.ADD, on_click=abrir_modal_agregar)
+                ft.FilledButton("Agregar ingreso", icon=ft.Icons.ADD, on_click=abrir_modal_agregar)
             ], alignment=ft.MainAxisAlignment.SPACE_BETWEEN)
         ),
         ft.Divider(),

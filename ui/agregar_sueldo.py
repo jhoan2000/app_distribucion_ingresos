@@ -1,9 +1,10 @@
 import flet as ft
 from services.calculadora import calcular_distribucion
 from services.storage import guardar_registro
-from utils.helpers import obtener_fecha_actual_formateada, formatear_moneda
+from utils.helpers import obtener_fecha_actual_formateada, formatear_moneda, mostrar_dialogo, cerrar_dialogo
 
 def mostrar_modal_ingreso(page: ft.Page, registros, on_guardar):
+    
 
     ingreso_input = ft.TextField(
         label="Ingresa tu sueldo del mes",
@@ -14,7 +15,7 @@ def mostrar_modal_ingreso(page: ft.Page, registros, on_guardar):
         width=300
     )
 
-    mensaje_error = ft.Text("", color=ft.colors.RED_600)
+    mensaje_error = ft.Text("", color=ft.Colors.RED_600)
 
     def guardar(e):
         ingreso_texto = ingreso_input.value.strip()
@@ -35,11 +36,11 @@ def mostrar_modal_ingreso(page: ft.Page, registros, on_guardar):
         registros.append(nuevo_registro)
         guardar_registro(nuevo_registro)
         on_guardar()
-        page.dialog.open = False
         page.update()
 
     def cerrar(e):
-        page.dialog.open = False
+        # ✅ Mostrar correctamente el diálogo
+        page.close(modal)
         page.update()
 
     modal = ft.AlertDialog(
@@ -50,12 +51,12 @@ def mostrar_modal_ingreso(page: ft.Page, registros, on_guardar):
             mensaje_error
         ], tight=True, spacing=10),
         actions=[
-            ft.TextButton("Cancelar", on_click=cerrar),
-            ft.ElevatedButton("Guardar", on_click=guardar, icon=ft.icons.SAVE),
+            ft.TextButton("Cancelar", on_click=lambda e: cerrar_dialogo(page,modal), icon=ft.Icons.CANCEL),
+            ft.ElevatedButton("Guardar", on_click=guardar, icon=ft.Icons.SAVE),
         ],
         actions_alignment=ft.MainAxisAlignment.END
     )
-
-    page.dialog = modal
-    modal.open = True
-    page.update()
+    
+    # ✅ Mostrar correctamente el diálogo
+    mostrar_dialogo(page, modal)
+ 

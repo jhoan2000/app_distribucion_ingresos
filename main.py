@@ -1,3 +1,4 @@
+import os
 import flet as ft
 from ui.home import pantalla_principal
 from ui.calendario import pantalla_calendario
@@ -13,6 +14,7 @@ def main(page: ft.Page):
     page.title = "Distribución de Dinero"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.scroll = ft.ScrollMode.AUTO
+    page.dialog = None
 
     def cambiar_pagina(index):
         page.controls.clear()
@@ -26,14 +28,18 @@ def main(page: ft.Page):
     # Barra inferior de navegación
     navegacion_inferior = ft.NavigationBar(
         destinations=[
-            ft.NavigationDestination(icon=ft.icons.HOME, label="Inicio"),
-            ft.NavigationDestination(icon=ft.icons.CALENDAR_MONTH, label="Por Fecha"),
+            ft.NavigationBarDestination(icon=ft.Icons.HOME, label="Inicio"),
+            ft.NavigationBarDestination(icon=ft.Icons.CALENDAR_MONTH, label="Por Fecha"),
         ],
         selected_index=0,
         on_change=lambda e: cambiar_pagina(e.control.selected_index),
     )
-
+    
     page.controls.append(navegacion_inferior)
     pantalla_principal(page)
 
-ft.app(target=main, view=ft.WEB_BROWSER)
+#ft.app(target=main)
+#ft.app(target=main, view=ft.WEB_BROWSER)
+ft.app(target=main, view=ft.WEB_BROWSER, port=int(os.environ.get("PORT", 5000)))
+
+

@@ -12,7 +12,7 @@ def pantalla_calendario(page: ft.Page):
     def buscar_por_fecha(e):
         fecha_elegida = date_picker.value
         if not fecha_elegida:
-            resultado.controls = [ft.Text("⚠️ Debes seleccionar una fecha.", color=ft.colors.RED)]
+            resultado.controls = [ft.Text("⚠️ Debes seleccionar una fecha.", color=ft.Colors.RED)]
             page.update()
             return
 
@@ -30,11 +30,11 @@ def pantalla_calendario(page: ft.Page):
                     ft.Card(
                         content=ft.Container(
                             on_click=lambda e, r=r: mostrar_graficos(page, r),
-                            bgcolor=ft.colors.GREY_50,
+                            bgcolor=ft.Colors.GREY_50,
                             border_radius=10,
                             padding=15,
                             content=ft.Column([
-                                ft.Text(f"💰 Ingreso: {formatear_moneda(r['ingreso'])}", weight="bold", size=15,color=ft.colors.INDIGO_ACCENT),
+                                ft.Text(f"💰 Ingreso: {formatear_moneda(r['ingreso'])}", weight="bold", size=15,color=ft.Colors.INDIGO_ACCENT),
                                 ft.Text(f"🛒 Necesidades Básicas: {formatear_moneda(dist['necesidades_basicas'])}"),
                                 ft.Text(f"👤 Gastos Personales: {formatear_moneda(dist['gastos_personales'])}"),
                                 ft.Text(f"⚠️ Imprevistos: {formatear_moneda(dist['imprevistos'])}"),
@@ -54,12 +54,14 @@ def pantalla_calendario(page: ft.Page):
     last_date=date(2030, 12, 31)
     )
 
-    page.overlay.append(date_picker)
+    #page.overlay.append(date_picker)
+    #page.open()
+    #page.overlay.append(date_picker)
 
     page.add(
         ft.Column([
             ft.Text("📅 Selecciona una fecha para ver registros", size=20, weight="bold"),
-            ft.FilledButton("Elegir fecha", icon=ft.icons.CALENDAR_MONTH, on_click=lambda e: date_picker.pick_date()),
+            ft.FilledButton("Elegir fecha", icon=ft.Icons.CALENDAR_MONTH, on_click=lambda e: page.open(date_picker)),
             resultado
         ], spacing=20)
     )
